@@ -14,7 +14,7 @@ public class app extends Application {
     private Stage primaryStage;
     private app app; // Reference to the main application
 
-
+//j
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
