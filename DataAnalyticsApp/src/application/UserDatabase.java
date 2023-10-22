@@ -35,10 +35,14 @@ public class UserDatabase {
 
 
     public void initializeDatabase() {
-        String createTableSQL = "CREATE TABLE IF NOT EXISTS users ( username TEXT PRIMARY KEY, password TEXT,first_name TEXT, last_name TEXT)";
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS users (username TEXT PRIMARY KEY, password TEXT, first_name TEXT, last_name TEXT)";
+        String createPostsTableSQL = "CREATE TABLE IF NOT EXISTS posts (id INTEGER PRIMARY KEY, content TEXT, author TEXT, likes INTEGER, shares INTEGER, date_time TEXT)";
+
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
-             PreparedStatement preparedStatement = connection.prepareStatement(createTableSQL)) {
-            preparedStatement.executeUpdate();
+             PreparedStatement userTableStatement = connection.prepareStatement(createTableSQL);
+             PreparedStatement postsTableStatement = connection.prepareStatement(createPostsTableSQL)) {
+            userTableStatement.executeUpdate();
+            postsTableStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

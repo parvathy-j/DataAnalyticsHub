@@ -27,6 +27,8 @@ public class loginController {
 			if (userDB.checkUserCredentials(username, password)) {
 			    // User authentication successful, you can navigate to the dashboard view
 			    // For now, let's just show a success message
+				usernameField.clear();
+	            passwordField.clear();
 			    showSuccess("Login Successful");
 			    app.showDashboard(username);
 			} else {
