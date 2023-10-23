@@ -33,6 +33,8 @@ public class loginController {
 			    app.showDashboard(username);
 			} else {
 			    // Handle authentication failure (wrong username or password)
+				usernameField.clear();
+	            passwordField.clear();
 			    showError("Invalid username or password.");
 			}
         } else {

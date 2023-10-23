@@ -35,7 +35,7 @@ public class UserDatabase {
 
 
     public void initializeDatabase() {
-        String createTableSQL = "CREATE TABLE IF NOT EXISTS users (username TEXT PRIMARY KEY, password TEXT, first_name TEXT, last_name TEXT)";
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS users (username TEXT UNIQUE NOT NULL, password TEXT, first_name TEXT, last_name TEXT)";
         String createPostsTableSQL = "CREATE TABLE IF NOT EXISTS posts (id INTEGER PRIMARY KEY, content TEXT, author TEXT, likes INTEGER, shares INTEGER, date_time TEXT)";
 
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
@@ -62,7 +62,7 @@ public class UserDatabase {
             e.printStackTrace();
         }
     }
-    public boolean updateUserProfile(String newFirstName, String newLastName, String newUsername, String newPassword) {
+    public boolean updateUserProfile(String oldUsername,String newFirstName, String newLastName, String newUsername, String newPassword) {
         String updateSQL = "UPDATE users SET username = ?, password = ?, first_name = ?, last_name = ? ";
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
              PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
@@ -80,4 +80,21 @@ public class UserDatabase {
             return false; // Update failed
         }
     }
+
+    public boolean isUsernameTaken(String username) {
+        String selectSQL = "SELECT username FROM users WHERE username = ?";
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(selectSQL)) {
+            preparedStatement.setString(1, username);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                return resultSet.next(); // Returns true if the username is found
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false; // Return false if an exception occurs (e.g., database connection issue)
+    }
+
 }

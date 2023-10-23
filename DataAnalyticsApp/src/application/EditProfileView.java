@@ -8,12 +8,18 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 
 public class EditProfileView {
     private GridPane root;
+    private TextField firstNameField ;
+    private TextField lastNameField ;
+    private TextField usernameField ;
+
+    private PasswordField passwordField;
 
     public EditProfileView() {
         root = new GridPane();
@@ -42,11 +48,11 @@ public class EditProfileView {
         passwordField.setPromptText("Enter your new password");
 
         Button updateButton = new Button("update");
-        updateButton.setOnAction(event -> updateProfileChanges(firstNameField.getText(), lastNameField.getText(), usernameField.getText(), passwordField.getText()));
+        updateButton.setOnAction(event -> updateProfileChanges(firstNameField.getText(), lastNameField.getText(), usernameField.getText(), passwordField.getText(),usernameField));
 
         titleLabel.setStyle("-fx-font-size: 20px;");
         titleLabel.setId("title-label");
-
+        
         // Style labels, text fields, and the save button
 
         GridPane.setConstraints(titleLabel, 0, 0, 2, 1);
@@ -67,16 +73,32 @@ public class EditProfileView {
         return root;
     }
 
-    private void updateProfileChanges(String newFirstName, String newLastName, String newUsername, String newPassword) {
+    private void updateProfileChanges(String newFirstName, String newLastName, String newUsername, String newPassword, TextField usernameField) {
         UserDatabase userDB = new UserDatabase();
-        boolean success = userDB.updateUserProfile(newUsername, newPassword, newFirstName, newLastName);
+        String oldUsername = usernameField.getText(); // Get the old username from the usernameField
 
-        if (success) {
-            // Provide feedback to the user about the success
-        	System.out.println("Profile updated successfully.");
+        // Check if the new username is unique
+        if (!userDB.isUsernameTaken(newUsername)) {
+            // New username is unique, proceed with the update
+            boolean success = userDB.updateUserProfile(oldUsername, newPassword, newFirstName, newLastName, newUsername);
+            
 
+            if (success) {
+                // Provide feedback to the user about the success
+                System.out.println("Profile updated successfully.");
+                // Clear the fields to prepare for further changes
+                firstNameField.clear();
+                lastNameField.clear();
+                usernameField.clear();
+                passwordField.clear();
+                
+            } else {
+                // Handle the case when the profile update fails
+                System.out.println("Profile update failed.");
+            }
         } else {
-            // Handle the case when the profile update fails
+            // Display an error message to the user
+            System.out.println("Username is already in use. Please choose a different username.");
         }
-    }
-}
+    }}
+
