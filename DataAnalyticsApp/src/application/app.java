@@ -77,9 +77,9 @@ public class app extends Application {
         // Show the LoginView
         loginStage.show();
     }
-    public static void showDashboard(String fullName) {
+    public static void showDashboard(String fullName,String username) {
         // Create a dashboard view
-        DashboardView dashboardView = new DashboardView(fullName);
+        DashboardView dashboardView = new DashboardView(fullName,username);
 
         // Create a Scene for the dashboard view
         Scene dashboardScene = new Scene(dashboardView.getView());
