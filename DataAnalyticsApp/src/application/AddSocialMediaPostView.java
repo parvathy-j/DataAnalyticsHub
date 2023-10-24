@@ -59,7 +59,7 @@ public class AddSocialMediaPostView {
 
         titleLabel.setStyle("-fx-font-size: 20px;");
         titleLabel.setId("title-label");
-
+        // Set positions and constraints for UI elements
         GridPane.setConstraints(titleLabel, 0, 0, 2, 1);
         GridPane.setConstraints(idLabel, 0, 1);
         GridPane.setConstraints(idField, 1, 1);
@@ -115,7 +115,7 @@ public class AddSocialMediaPostView {
             SuccessAlert.show("Post added successfully");
 
         } catch (NumberFormatException e) {
-            // Handle the case where id, likes, or shares are not valid integers
+            // Handles the case where id, likes, or shares are not valid integers
             ErrorAlert.show("Invalid input. ID,Likes and shares must be valid integers.");
         }
     }

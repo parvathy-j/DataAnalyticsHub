@@ -102,7 +102,6 @@ public class DashboardView {
     }
 
 	private void bulkImport() {
-	    // Call the bulk import method from PostsDatabase or your CSV import logic here
 		bulkImportPosts.bulkImportPosts();
 	}
 
@@ -199,7 +198,7 @@ public class DashboardView {
 		ButtonType result = alert.showAndWait().orElse(buttonTypeCancel); // Get the result or default to Cancel
 
 		if (result == buttonTypeOK) {
-			// The user clicked "OK," so upgrade the user to VIP
+			// The user clicked "Yes," so upgrade the user to VIP
 			UserDatabase userDB = new UserDatabase();
 			userDB.upgradeToVIP(username); // Update the user's VIP status in the database
 

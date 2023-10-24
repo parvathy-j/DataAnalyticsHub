@@ -43,7 +43,6 @@ public class UserDatabase {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			// Handle the database exception, e.g., show an error message
 		}
 	}
 

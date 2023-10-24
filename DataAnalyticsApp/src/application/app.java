@@ -37,7 +37,7 @@ public class app extends Application {
         }
     }
     public void registerUser(String username, String password,String lastName,String firstName) {
-        // Implement your registration logic here, e.g., adding the user to the database
+        // adding the user to the database
         UserDatabase userDB = new UserDatabase();
         userDB.registerUser(username, password,lastName,firstName);
 
