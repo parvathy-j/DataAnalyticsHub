@@ -17,11 +17,11 @@ public class EditProfileView {
     private GridPane root;
     private TextField firstNameField ;
     private TextField lastNameField ;
-    private TextField usernameField ;
+    public TextField usernameField ;
 
     private PasswordField passwordField;
 
-    public EditProfileView() {
+    public EditProfileView(String username) {
         root = new GridPane();
         root.setHgap(10);
         root.setVgap(10);
@@ -48,7 +48,7 @@ public class EditProfileView {
         passwordField.setPromptText("Enter your new password");
 
         Button updateButton = new Button("update");
-        updateButton.setOnAction(event -> updateProfileChanges(firstNameField.getText(), lastNameField.getText(), usernameField.getText(), passwordField.getText(),usernameField));
+        updateButton.setOnAction(event -> updateProfileChanges(firstNameField.getText(), lastNameField.getText(), usernameField.getText(), passwordField.getText(),username));
 
         titleLabel.setStyle("-fx-font-size: 20px;");
         titleLabel.setId("title-label");
@@ -73,9 +73,9 @@ public class EditProfileView {
         return root;
     }
 
-    private void updateProfileChanges(String newFirstName, String newLastName, String newUsername, String newPassword, TextField usernameField) {
+    private void updateProfileChanges(String newFirstName, String newLastName, String newUsername, String newPassword, String username) {
         UserDatabase userDB = new UserDatabase();
-        String oldUsername = usernameField.getText(); // Get the old username from the usernameField
+        String oldUsername = username; // Get the old username from the usernameField
 
         // Check if the new username is unique
         if (!userDB.isUsernameTaken(newUsername)) {
@@ -89,14 +89,10 @@ public class EditProfileView {
             	// From any other class
             	SuccessAlert.show("Profile is updated!");
 
-                firstNameField.clear();
-                lastNameField.clear();
-                usernameField.clear();
-                passwordField.clear();
                 
             } else {
                 // Handle the case when the profile update fails
-                System.out.println("Profile update failed.");
+                ErrorAlert.show("Profile update failed.");
             }
         } else {
             // Display an error message to the user

@@ -44,7 +44,7 @@ public class DashboardView {
         titleLabel.setId("title-label");
         welcomeLabel.setStyle("-fx-font-size: 16px;");
         Button editProfileButton = new Button("Edit Profile");
-        editProfileButton.setOnAction(event -> openEditProfileView());
+        editProfileButton.setOnAction(event -> openEditProfileView(username));
         Button addPostButton = new Button("Add Social Media Post");
         addPostButton.setOnAction(event -> addSocialMediaPost());
         Button retrievePostButton = new Button("Retrieve Post by ID");
@@ -160,9 +160,9 @@ public class DashboardView {
 		stage.show();
 	}
 
-	private void openEditProfileView() {
+	public void openEditProfileView(String username) {
 		
-		EditProfileView editProfileView = new EditProfileView();
+		EditProfileView editProfileView = new EditProfileView(username);
 		Scene editProfileScene = new Scene(editProfileView.getView());
 		Stage editProfileStage = new Stage();
 		editProfileStage.setScene(editProfileScene);

@@ -16,7 +16,7 @@
         </Text>
         <TextField fx:id="usernameField" layoutX="112.0" layoutY="83.0" promptText="Username" />
         <PasswordField fx:id="passwordField" layoutX="112.0" layoutY="123.0" promptText="Password" />
-        <Button layoutX="112.0" layoutY="163.0" mnemonicParsing="false" onAction="#loginUser" text="Login" />
+        <Button layoutX="112.0" layoutY="163.0" mnemonicParsing="false" onAction="#loginUser" onKeyPressed="#loginUser" text="Login" />
         <Button layoutX="209.0" layoutY="163.0" mnemonicParsing="false" onAction="#openRegisterScreen" text="Register" />
     </children>
 </AnchorPane>

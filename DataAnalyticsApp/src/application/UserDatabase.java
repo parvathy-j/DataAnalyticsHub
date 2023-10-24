@@ -62,9 +62,8 @@ public class UserDatabase {
 		}
 	}
 
-	public boolean updateUserProfile(String oldUsername, String newFirstName, String newLastName, String newUsername,
-			String newPassword) {
-		String updateSQL = "UPDATE users SET username = ?, password = ?, first_name = ?, last_name = ? ";
+	public boolean updateUserProfile(String oldUsername, String newPassword,String newFirstName, String newLastName, String newUsername) {
+		String updateSQL = "UPDATE users SET username = ?, password = ?, first_name = ?, last_name = ? WHERE username =? ";
 		try (Connection connection = DriverManager.getConnection(DATABASE_URL);
 				PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
 
@@ -72,6 +71,7 @@ public class UserDatabase {
 			preparedStatement.setString(2, newPassword);
 			preparedStatement.setString(3, newFirstName);
 			preparedStatement.setString(4, newLastName);
+			preparedStatement.setString(5, oldUsername);
 
 			int rowsAffected = preparedStatement.executeUpdate();
 
@@ -103,7 +103,7 @@ public class UserDatabase {
 	}
 
 	public boolean isUsernameTaken(String username) {
-		String selectSQL = "SELECT username FROM users WHERE username = ?";
+		String selectSQL = "SELECT * FROM users WHERE username = ?";
 		try (Connection connection = DriverManager.getConnection(DATABASE_URL);
 				PreparedStatement preparedStatement = connection.prepareStatement(selectSQL)) {
 			preparedStatement.setString(1, username);
