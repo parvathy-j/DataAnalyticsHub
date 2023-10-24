@@ -1,10 +1,12 @@
 package application;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,14 +31,15 @@ public class PostsDatabase {
     }
 
     public void addSocialMediaPost(SocialMediaPost post) {
-        String insertPostSQL = "INSERT INTO posts (content, author, likes, shares, date_time) VALUES (?, ?, ?, ?, ?)";
+        String insertPostSQL = "INSERT INTO posts (id,content, author, likes, shares, date_time) VALUES (?,?, ?, ?, ?, ?)";
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
              PreparedStatement preparedStatement = connection.prepareStatement(insertPostSQL)) {
-            preparedStatement.setString(1, post.getContent());
-            preparedStatement.setString(2, post.getAuthor());
-            preparedStatement.setInt(3, post.getLikes());
-            preparedStatement.setInt(4, post.getShares());
-            preparedStatement.setString(5, post.getDateTime());
+            preparedStatement.setInt(1, post.getId());
+            preparedStatement.setString(2, post.getContent());
+            preparedStatement.setString(3, post.getAuthor());
+            preparedStatement.setInt(4, post.getLikes());
+            preparedStatement.setInt(5, post.getShares());
+            preparedStatement.setString(6, post.getDateTime());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -105,10 +108,10 @@ public class PostsDatabase {
 
             if (rowsAffected > 0) {
                 // Post removed successfully
-                System.out.println("Post with ID " + postId + " has been removed.");
+                SuccessAlert.show("Post with ID " + postId + " has been removed.");
             } else {
                 // No post found with the given ID
-                System.out.println("Post with ID " + postId + " not found.");
+                ErrorAlert.show("Post with ID " + postId + " not found.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -141,6 +144,47 @@ public class PostsDatabase {
         }
 
         return topPosts;
+    }
+
+    public static void insertPost(int id, String content, String author, int likes, int shares, String dateTime) {
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL)) {
+            String sql = "INSERT INTO posts (id, content, author, likes, shares, date_time) VALUES (?, ?, ?, ?, ?, ?)";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, id);
+                preparedStatement.setString(2, content);
+                preparedStatement.setString(3, author);
+                preparedStatement.setInt(4, likes);
+                preparedStatement.setInt(5, shares);
+                preparedStatement.setString(6, dateTime);
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exceptions appropriately (e.g., logging, showing error messages).
+        }}
+
+    public static boolean postExists(int id) {
+        try {
+            // Create a SQL query to check if a post with the given ID exists
+            String query = "SELECT COUNT(*) FROM posts WHERE id = ?";
+
+            // Create a prepared statement
+            Connection connection = DriverManager.getConnection(DATABASE_URL);
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+
+            // Execute the query
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                int count = resultSet.getInt(1);
+                return count > 0; // If count > 0, a post with the same ID exists
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle the exception appropriately, e.g., logging or throwing a custom exception
+        }
+
+        return false; // Return false by default if there was an error or the post doesn't exist
     }
     
 }

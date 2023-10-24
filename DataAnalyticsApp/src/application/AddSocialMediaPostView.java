@@ -88,16 +88,21 @@ public class AddSocialMediaPostView {
         try {
             // Get the values from the text fields
             int id = Integer.parseInt(idField.getText());
+            PostsDatabase postsDatabase = new PostsDatabase();
+            if (PostsDatabase.getPostById(id) != null) {
+                ErrorAlert.show("A post with the same ID already exists. Please choose a different ID.");
+                return; // Exit the method
+            }
             String content = contentField.getText();
             String author = authorField.getText();
             int likes = Integer.parseInt(likesField.getText());
             int shares = Integer.parseInt(sharesField.getText());
             String dateTime = dateTimeField.getText();
+            
 
             // Create a SocialMediaPost instance
             SocialMediaPost post = new SocialMediaPost(id, content, author, likes, shares, dateTime);
          // Add the post to the database
-            PostsDatabase postsDatabase = new PostsDatabase();
             postsDatabase.addSocialMediaPost(post);
 
             // Clear the input fields for the next post
@@ -107,31 +112,14 @@ public class AddSocialMediaPostView {
             likesField.clear();
             sharesField.clear();
             dateTimeField.clear();
-            showSuccessAlert("Post added successfully");
+            SuccessAlert.show("Post added successfully");
 
         } catch (NumberFormatException e) {
             // Handle the case where id, likes, or shares are not valid integers
-            showErrorAlert("Invalid input. Likes and shares must be valid integers.");
+            ErrorAlert.show("Invalid input. ID,Likes and shares must be valid integers.");
         }
     }
     
     
-    private void showErrorAlert(String message) {
-    	Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();		
-	}
-
-	private void showSuccessAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Success");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-        
-        // Close the window or any parent stage
-        
-    }
+ 
 }

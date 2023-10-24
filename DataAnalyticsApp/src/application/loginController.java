@@ -34,7 +34,7 @@ public class loginController {
 			
         } else {
             // Handle case when one or both fields are empty
-            showError("Please enter both username and password.");
+            ErrorAlert.show("Please enter both username and password.");
         }
     }
     public void checkUserCredentials(String username, String password) {
@@ -55,13 +55,13 @@ public class loginController {
     			    // For now, let's just show a success message
     				usernameField.clear();
     	            passwordField.clear();
-    			    showSuccess("Login Successful");
+    	            SuccessAlert.show("Login Successful!");
     			    app.showDashboard(fullname,username);
     			} else {
     			    // Handle authentication failure (wrong username or password)
     				usernameField.clear();
     	            passwordField.clear();
-    			    showError("Invalid username or password.");
+    			    ErrorAlert.show("Invalid username or password.");
     			}
                  // If a row is returned, the user exists
             }
@@ -78,21 +78,8 @@ public class loginController {
          registerStage.setScene(registerScene);
          registerStage.show();
     }
-    // Show an error message using an alert dialog
-    private void showError(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    // Show a success message using an alert dialog
-    private void showSuccess(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Success");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
 }
+    // Show an error message using an alert dialog
+    
+
+    

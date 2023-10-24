@@ -47,6 +47,7 @@ public class RemovePostByIDView {
 
             //  display a success message or handle the case when the post is not found
         } catch (NumberFormatException e) {
+        	ErrorAlert.show("Invalid input. Please enter a valid post ID.");
             // Handling the case where the user enters an invalid post ID
         }
     }

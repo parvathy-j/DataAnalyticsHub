@@ -65,6 +65,10 @@ public class DashboardView {
         upgradeToVIPButton.setOnAction(event->upgradeToVIP(username));
         Button displayChartButton=new Button("Visualise Data");
         displayChartButton.setOnAction(event -> displayPieChart());
+        
+        Button bulkImportPostsButton=new Button("Import posts from csv");
+        bulkImportPostsButton.setOnAction(event -> bulkImport());
+        
 
         UserDatabase userDB = new UserDatabase();
         
@@ -85,16 +89,22 @@ public class DashboardView {
         GridPane.setConstraints(exportPostButton, 0, 7);
         GridPane.setConstraints(upgradeToVIPButton, 0, 8);
         GridPane.setConstraints(displayChartButton, 0, 9);
-        GridPane.setConstraints(logOutButton, 0, 10);
+        GridPane.setConstraints(bulkImportPostsButton, 0, 10);
+        GridPane.setConstraints(logOutButton, 0, 11);
 
         if(isVip==0) {
         root.getChildren().addAll(titleLabel, welcomeLabel, editProfileButton, addPostButton,
             retrievePostButton, removePostButton, retrieveTopPostsButton, exportPostButton,upgradeToVIPButton,logOutButton);}
         else{
         	root.getChildren().addAll(viptitleLabel, vipWelcomeLabel, editProfileButton, addPostButton,
-                    retrievePostButton, removePostButton, retrieveTopPostsButton, exportPostButton,displayChartButton,logOutButton);
+                    retrievePostButton, removePostButton, retrieveTopPostsButton, exportPostButton,displayChartButton,bulkImportPostsButton,logOutButton);
         }
     }
+
+	private void bulkImport() {
+	    // Call the bulk import method from PostsDatabase or your CSV import logic here
+		bulkImportPosts.bulkImportPosts();
+	}
 
 	private void displayPieChart() {
 		UserDatabase userDB = new UserDatabase();
@@ -151,6 +161,7 @@ public class DashboardView {
 	}
 
 	private void openEditProfileView() {
+		
 		EditProfileView editProfileView = new EditProfileView();
 		Scene editProfileScene = new Scene(editProfileView.getView());
 		Stage editProfileStage = new Stage();
@@ -193,17 +204,12 @@ public class DashboardView {
 			userDB.upgradeToVIP(username); // Update the user's VIP status in the database
 
 			// Provide feedback to the user about the upgrade
-			showSuccessAlert("Congratulations! You are now a VIP user.");
+			SuccessAlert.show("Congratulations! You are now a VIP user.");
 		}
 	}
+	
 
-	private void showSuccessAlert(String message) {
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Success");
-		alert.setHeaderText(null);
-		alert.setContentText(message);
-		alert.showAndWait();
-	}
+	
 
 	public Parent getView() {
 		return root;

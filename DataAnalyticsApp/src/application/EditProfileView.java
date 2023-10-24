@@ -85,8 +85,10 @@ public class EditProfileView {
 
             if (success) {
                 // Provide feedback to the user about the success
-                System.out.println("Profile updated successfully.");
-                // Clear the fields to prepare for further changes
+            	// Clear the fields to prepare for further changes
+            	// From any other class
+            	SuccessAlert.show("Profile is updated!");
+
                 firstNameField.clear();
                 lastNameField.clear();
                 usernameField.clear();
@@ -101,4 +103,3 @@ public class EditProfileView {
             System.out.println("Username is already in use. Please choose a different username.");
         }
     }}
-

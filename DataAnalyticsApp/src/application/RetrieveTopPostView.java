@@ -54,11 +54,13 @@ public class RetrieveTopPostView {
             List<SocialMediaPost> topPosts;
 			
 				topPosts = PostsDatabase.getTopPostsByLikes(numberOfPosts);
-			
+
 
             if (topPosts.isEmpty()) {
-                // Handle the case where no posts are found
-            } else { int number = 1;
+            	ErrorAlert.show("No posts found");
+            } else {
+            	postDetailsLabel.clear(); // Clear previous entries before adding new ones
+            	int number = 1;
             for (SocialMediaPost post : topPosts) {
                 postDetailsLabel.appendText("Post: " + number + "\nContent: " + post.getContent() + "\nAuthor: " + post.getAuthor() +
                         "\nLikes: " + post.getLikes() + "\nShares: " + post.getShares() + "\nDate/Time: " + post.getDateTime() + "\n\n");
@@ -66,6 +68,8 @@ public class RetrieveTopPostView {
             }
             }
         } catch (NumberFormatException e) {
+        	ErrorAlert.show("Invalid input. Please enter a valid post ID.");
+
         }
     }
 
